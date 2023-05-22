@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!DOCTYPE html>
+<html>
+<head>
+  <title>TA Assistance Tracker</title>
+  <script>
+    function addEntry() {
+      var entryField = document.getElementById("entry");
+      var entriesSection = document.getElementById("entries");
+     
+      var entryValue = entryField.value.trim();
+      if (entryValue === "") {
+        alert("Invalid entry");
+        return;
+      }
+     
+      var entryParts = entryValue.split(",");
+      if (entryParts.length !== 3) {
+        alert("Invalid entry");
+        return;
+      }
+     
+      var directoryId = entryParts[0].trim();
+      var description = entryParts[1].trim();
+      var duration = entryParts[2].trim();
+     
+      var entryText = directoryId + " " + description + " " + duration;
+      var entryElement = document.createElement("div");
+      entryElement.textContent = entryText;
+      entriesSection.appendChild(entryElement);
+     
+      entryField.value = "";
+    }
+   
+    function summary() {
+      var entriesSection = document.getElementById("entries");
+      var summarySection = document.getElementById("summary");
+     
+      var entries = Array.from(entriesSection.children);
+      var sortedEntries = entries.sort(function(a, b) {
+        var aDuration = parseInt(a.textContent.split(" ")[2]);
+        var bDuration = parseInt(b.textContent.split(" ")[2]);
+        return bDuration - aDuration;
+      });
+     
+      var summaryText = "Number of entries: " + sortedEntries.length;
+      sortedEntries.forEach(function(entry) {
+        summaryText += entry.textContent.replace(/ /g, "") + "<br>";
+      });
+     
+      summarySection.innerHTML = summaryText;
+    }
+  </script>
+</head>
+<body>
+  <h1>TA Assistance Tracker</h1>
+ 
+  <h2>Entries</h2>
+  <div id="entries"></div>
+ 
+  <h2>Summary</h2>
+  <div id="summary"></div>
+ 
+  <h2>Add Entry</h2>
+  <input type="text" id="entry" placeholder="DIRECTORY_ID, DESCRIPTION, DURATION">
+  <button onclick="addEntry()">AddEntry</button>
+ 
+  <h2>Actions</h2>
+  <button onclick="summary()">Summary</button>
+</body>
+</html>
+</body>
+</html>
